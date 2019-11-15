@@ -1,22 +1,34 @@
 const express = require('express');
 const path = require('path');
+var bodyParser = require('body-parser');
+const PORT = process.env.PORT || 5000;
 
-var PORT = process.env.PORT || 5000;
 const app = express();
 
-app.use(express.urlencoded())
-
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.get('/', (req, res) => res.send('<a href="calculator.html">Go to Calculator</a>'));
+
+app.post('/calculate', (req, res) => {
+
+    let weight = Number(req.body.weight);
+    let type = req.body.mailType;
+    let cost = calculateRates(type, weight);
+    
+    res.render('showValue', {
+        cost: cost
+    });
+});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
-app.get('/', (req, res) => res.send('Hello World!'));
 
-app.post('/calculate', (req, res) => {
-    let weight = Number(req.body.weight);
-    let type = req.body.mailType;
+function calculateRates(type, weight) {
     let cost = undefined;
-    console.log(weight);
     if (type === 'stamped' && weight > 0) {
         if (weight <= 1) {
             cost = 0.55;
@@ -26,10 +38,7 @@ app.post('/calculate', (req, res) => {
             cost = 0.85;
         } else if (weight <= 3.5) {
             cost = 1.0
-        } else {
-            return;
         }
-        res.send(`Your cost is $${cost.toFixed(2)}`)
     }
     if (type === 'metered' && weight > 0) {
         if (weight <= 1) {
@@ -40,10 +49,7 @@ app.post('/calculate', (req, res) => {
             cost = 0.80;
         } else if (weight <= 3.5) {
             cost = .95
-        } else {
-            return;
         }
-        res.send(`Your cost is $${cost.toFixed(2)}`)
     }
     if (type === 'flats' && weight > 0) {
         if (weight <= 1) {
@@ -72,10 +78,7 @@ app.post('/calculate', (req, res) => {
             cost = 2.65
         } else if (weight <= 13) {
             cost = 2.80
-        } else {
-            return;
         }
-        res.send(`Your cost is $${cost.toFixed(2)}`)
     }
     if (type === 'retail' && weight > 0) {
         if (weight <= 4) {
@@ -86,13 +89,7 @@ app.post('/calculate', (req, res) => {
             cost = 5.19;
         } else if (weight <= 13) {
             cost = 5.71
-        } else {
-            return;
         }
-        res.render("response.ejs", {
-            cost: cost,
-            weight: weight,
-            type: type
-        });
     }
-});
+    return cost;
+}
