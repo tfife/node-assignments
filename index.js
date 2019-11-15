@@ -20,7 +20,9 @@ app.post('/calculate', (req, res) => {
     let cost = calculateRates(type, weight);
     
     res.render('showValue', {
-        cost: cost
+        cost: cost,
+        weight: weight,
+        type: type
     });
 });
 

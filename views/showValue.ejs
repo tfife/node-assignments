@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Display Price</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 <body>
-    <p>Your cost is $<%= cost.toFixed(2) %></p>
+    <div class="container">
+        <h1>Mail Pricing</h1>
+        <% if (cost == undefined) { %>
+            <p>Sorry, <%=weight.toFixed(1)%> is an invalid weight for shipping a <%=type%> letter/parcel</p>
+        <% } else { %>
+            <p>Your letter/package weighing <%= weight.toFixed(1) %> oz will cost $<%= cost.toFixed(2) %> to ship as a <%=type%> letter/parcel.</p>
+        <%}%>
+    </div>
 </body>
 </html>
