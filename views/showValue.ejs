@@ -9,12 +9,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Mail Pricing</h1>
-        <% if (cost == undefined) { %>
-            <p>Sorry, <%=weight.toFixed(1)%> is an invalid weight for shipping a <%=type%> letter/parcel</p>
-        <% } else { %>
-            <p>Your letter/package weighing <%= weight.toFixed(1) %> oz will cost $<%= cost.toFixed(2) %> to ship as a <%=type%> letter/parcel.</p>
-        <%}%>
+        <h1 class="mt-4">Mail Pricing</h1>
+        <div class="mt-3"><strong>
+            <% if (cost == undefined) { %>
+                <p>Sorry, <%=weight.toFixed(1)%> is an invalid weight for shipping a <%=type%> letter/parcel</p>
+            <% } else { %>
+                <h2>$<%= cost.toFixed(2) %></h2>
+                <p>Your letter/package weighing <%= weight.toFixed(1) %> oz will cost $<%= cost.toFixed(2) %> to ship as a <%=type%> letter/parcel.</p>
+            <%}%>
+            <button class="btn btn-primary" onclick="window.location.href = 'calculator.html';">Back to Calculator</button>
+        </strong></div>
     </div>
 </body>
 </html>
